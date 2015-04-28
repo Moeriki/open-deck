@@ -1,0 +1,7 @@
+{
+  "public": {
+    "loglevel": {
+      "default": "info"
+    }
+  }
+}

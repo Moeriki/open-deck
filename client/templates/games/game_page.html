@@ -1,0 +1,20 @@
+<template name="gamePage">
+  <h1>Table: {{game.table.name}}</h1>
+  <div>Game: {{game._id}}</div>
+  <h2>Menu</h2>
+  <ul>
+    <li><a href="#" class="shuffle-deck">Shuffle deck</a></li>
+  </ul>
+  <h2>Players</h2>
+  <ul>
+  {{#each game.players}}
+    <li>{{user.username}}</li>
+  {{/each}}
+  </ul>
+  <h2>Deck</h2>
+  {{> cardList game.deck}}
+  <h2>Open</h2>
+  {{> cardList game.open}}
+  <h2>Folded</h2>
+  {{> cardList game.folded}}
+</template>
