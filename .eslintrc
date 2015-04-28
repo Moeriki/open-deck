@@ -8,20 +8,14 @@
     "mocha": false,       // adds all of the Mocha testing global variables.
     "jasmine": false,     // adds all of the Jasmine testing global variables for version 1.3 and 2.0.
     "phantomjs": false,   // phantomjs global variables.
-    "jquery": false,      // jquery global variables.
+    "jquery": true,       // jquery global variables.
     "prototypejs": false, // prototypejs global variables.
     "shelljs": false,     // shelljs global variables.
+    "meteor": true,       // meteor global variables
     "es6": true
   },
 
   "globals": {
-    // Meteor
-    "Meteor": true,
-    "Template": true,
-    "Mongo": true,
-    "Accounts": true,
-    "Router": true,
-    "$": true,
     // Vendor libraries
     "_": true,
     "loglevel": true,
@@ -31,6 +25,7 @@
     "Tables": true,
     "Games": true,
     "Players": true,
+    // Services
     "CardsService": true,
   },
 
