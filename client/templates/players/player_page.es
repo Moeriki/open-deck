@@ -1,6 +1,7 @@
 let log = loglevel.createPackageLogger('PlayerPage');
 
 Template.playerPage.events({
+
   'click .js-player-join-game .js-action': function () {
     let username = $('.js-player-join-game .js-username').val();
     let playerId = this.player._id;
@@ -33,4 +34,5 @@ Template.playerPage.events({
       });
     }
   },
+
 });
