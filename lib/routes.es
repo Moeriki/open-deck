@@ -1,6 +1,7 @@
 Router.configure({
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
+  notFoundTemplate: 'notFound',
 });
 
 Router.route('/', {
@@ -45,3 +46,16 @@ Router.route('/tables/:_tableId/games/:_gameId/players/:_playerId', {
     return { game, player };
   }
 });
+
+Router.onBeforeAction('dataNotFound');
+
+Router.onBeforeAction(function () {
+  let userId = Meteor.userId();
+  let player = Players.findOne(this.params._playerId);
+
+  if (player.userId && !userId || player.userId !== userId) {
+    return this.render('accessDenied');
+  }
+
+  return this.next();
+}, { only: ['playerPage'] });
