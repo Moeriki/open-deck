@@ -1,6 +1,16 @@
 <template name="playerPage">
   {{#if currentUser}}
-    <div>Hello {{currentUser.username}}.</div>
+    <h1>Player: {{currentUser.username}}.</h1>
+    <h3>Hand</h3>
+    {{#isEmpty player.cards}}
+      <p>You have no cards.</p>
+    {{else}}
+      <ul>
+        {{#each player.cards}}
+          <li>{{> cardItem}}</li>
+        {{/each}}
+      </ul>
+    {{/isEmpty}}
   {{else}}
     <form class="js-player-join-game">
       <div>Please choose a username.</div>
