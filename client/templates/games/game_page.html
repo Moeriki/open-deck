@@ -1,10 +1,6 @@
 <template name="gamePage">
   <h1>Table: {{table.name}}</h1>
   <h2>Game: {{_id}}</h2>
-  <h3>Menu</h3>
-  <ul>
-    <li><a href="#" class="js-shuffle-deck">Shuffle deck</a></li>
-  </ul>
   <h3>Players</h3>
   {{#isEmpty players}}
     <p>There are no players yet.</p>
@@ -16,6 +12,9 @@
     </ul>
   {{/isEmpty}}
   <h3>Deck</h3>
+  <ul>
+    <li><a href="#" class="js-shuffle-deck">Shuffle deck</a></li>
+  </ul>
   {{> cardList deck}}
   <h3>Open</h3>
   <ul>
