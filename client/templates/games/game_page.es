@@ -8,7 +8,7 @@ Template.gamePage.events({
     });
   },
 
-  'click .js-shift-card': function (e) {
+  'click .js-deal-card': function (e) {
     e.preventDefault();
 
     let game = this.game();
