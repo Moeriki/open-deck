@@ -14,6 +14,10 @@ Players.helpers({
     return Games.findOne(this.gameId);
   },
 
+  table: function () {
+    return this.game().table();
+  },
+
   user: function () {
     return Meteor.users.findOne(this.userId);
   }

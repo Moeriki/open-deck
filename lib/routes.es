@@ -10,7 +10,7 @@ Router.route('/', {
     return [Meteor.subscribe('tableList'), Meteor.subscribe('gameList')];
   },
   data: function () {
-    return { tables: Tables.find() };
+    return Tables.find();
   }
 });
 
@@ -24,9 +24,7 @@ Router.route('/tables/:_tableId/games/:_gameId', {
     ];
   },
   data: function () {
-    let game = Games.findOne(this.params._gameId);
-
-    return { game };
+    return Games.findOne(this.params._gameId);
   }
 });
 
@@ -40,10 +38,7 @@ Router.route('/tables/:_tableId/games/:_gameId/players/:_playerId', {
     ];
   },
   data: function () {
-    let game = Games.findOne(this.params._gameId);
-    let player = Players.findOne(this.params._playerId);
-
-    return { game, player };
+    return Players.findOne(this.params._playerId);
   }
 });
 

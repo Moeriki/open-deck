@@ -1,7 +1,7 @@
 <template name="tableList">
   {{#if hasTables}}
     <ul class="table-list">
-      {{#each tables}}
+      {{#each this}}
         <li>
           {{name}} ({{size games}} game)
           <ul>

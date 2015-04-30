@@ -4,7 +4,7 @@ Template.playerPage.events({
 
   'click .js-player-join-game .js-action': function () {
     let username = $('.js-player-join-game .js-username').val();
-    let playerId = this.player._id;
+    let playerId = this._id;
 
     Accounts.createUser({
       username,

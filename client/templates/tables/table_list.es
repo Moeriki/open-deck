@@ -7,7 +7,7 @@ Template.tableList.helpers({
   },
 
   hasTables: function () {
-    return Tables.find().count() > 0;
+    return this.count() > 0;
   },
 
 });
@@ -26,8 +26,8 @@ Template.tableList.events({
   'click .js-join-game': function joinTable(e) {
     e.preventDefault();
 
-    let tableId = this.tableId;
     let gameId = this._id;
+    let tableId = this.tableId;
 
     Meteor.call('createPlayer', gameId, function (err, playerId) {
       if (err) {

@@ -1,12 +1,14 @@
 <template name="playerPage">
-  {{#if currentUser}}
-    <h1>Player: {{currentUser.username}}.</h1>
-    <h3>Hand</h3>
-    {{#isEmpty player.cards}}
+  {{#if userId}}
+    <h1>Table: {{table.name}}</h1>
+    <h2>Game: {{game._id}}</h2>
+    <h3>Player: {{user.username}}.</h3>
+    <h4>Hand</h4>
+    {{#isEmpty cards}}
       <p>You have no cards.</p>
     {{else}}
       <ul>
-        {{#each player.cards}}
+        {{#each cards}}
           <li>{{> cardItem}}</li>
         {{/each}}
       </ul>
