@@ -19,4 +19,12 @@ Template.gamePage.events({
     Players.update(this._id, { $push: { cards: card } });
   },
 
+  'click .js-fold-cards': function (e) {
+    e.preventDefault();
+
+    Games.update(this._id, { $push: { fold: { $each: this.open } } });
+
+    Games.update(this._id, { $set: { open: [] } });
+  },
+
 });
