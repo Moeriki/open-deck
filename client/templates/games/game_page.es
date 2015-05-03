@@ -2,15 +2,16 @@ function stackOperation(which, fn) {
   return function (e) {
     e.preventDefault();
 
-    if (this.deck.length === 0) {
+    let cards = this[which];
+    if (cards.length === 0) {
       return;
     }
 
-    let $setter = {};
-    let data = fn(this[which]);
+    let data = fn(cards);
     log.info('deck operation result: ', data);
 
-    $setter[which] = this[which];
+    let $setter = {};
+    $setter[which] = cards;
 
     Games.update(this._id, { $set: $setter });
   };
