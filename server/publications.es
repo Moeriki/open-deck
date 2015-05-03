@@ -24,10 +24,15 @@ Meteor.publish('singlePlayer', function (playerId) {
 
 // composites
 
-Meteor.publish('gamePlayers', function (gameId) {
-  let players = Players.find({ gameId });
-  let playerIds = _.pluck(players.fetch(), 'userId');
-  let users = Meteor.users.find({ _id: { $in: playerIds } });
-
-  return [players, users];
+Meteor.publishComposite('gamePlayers', function (gameId) {
+  return {
+    find: function () {
+      return Players.find({ gameId });
+    },
+    children: [{
+      find: function (player) {
+        return Meteor.users.find(player.userId);
+      }
+    }]
+  };
 });
