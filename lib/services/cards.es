@@ -1,20 +1,23 @@
 // consts
 
-var COLORS = ['HEARTS', 'DIAMONDS', 'CLUBS', 'SPADES'];
+const COLORS = ['HEARTS', 'DIAMONDS', 'CLUBS', 'SPADES'];
+
+const round = Math.round;
 
 // private functions
 
-function repeatable(fn) {
-  return function (times, ...args) {
-    if (typeof times !== 'number' || times < 0) {
-      args.shift(times);
-      times = 1;
-    }
+function randomCutPosition(cards, random) {
+  let size = cards.length;
 
-    while (times-- > 0) {
-      fn(...args);
-    }
-  };
+  if (_.isNumber(random)) {
+    return _.random(round(random * size));
+  }
+
+  if (_.isArray(random)) {
+    return _.random(round(random[0] * size), round(random[1] * size));
+  }
+
+  return _.random(size);
 }
 
 // export module
@@ -36,67 +39,82 @@ CardsService = {
     return cards;
   },
 
-  coupDeck: function (cards) {
-    CardsService.overhandShuffle(cards);
+  cut: function (cards, options = {}) {
+    _.defaults(options, {
+      at: 'random',// any non number = 'random'
+      random: [0.25, 0.75],
+    }, options);
+
+    let at = options.at;
+    if (typeof at !== 'number') {
+      at = randomCutPosition(cards, options.random);
+    }
+
+    cards.splice(0, 0, ...cards.splice(at));
+
+    return at;
   },
 
-  overhandShuffle: repeatable(function (cards, options = {}) {
-    options = _.extend({
-      nested: 1,
-      offset: .25,
-      topDown: true,
-    }, options);
+  overhandShuffle: function (cards, options = {}) {
+    _.defaults(options, {
+      nested: -1,
+      random: 0.25,
+    });
 
-    if (!options.topDown) {
-      cards.reverse();
-    }
+    let minSize = round(cards.length * 0.1);
+    let overhand = function (ohCards) {
+      let cutPos = randomCutPosition(ohCards, options.random);
+      let cut = ohCards.splice(cutPos);
+      let result = [];
 
-    let coupDeck = cards;
+      result.push(cutPos);
+      if (cut.length > minSize) {
+        result.push(...overhand(cut));
+      }
 
-    do {
-      let coupSize = coupDeck.length;
-      let offset = Math.round(coupSize * options.offset);
+      ohCards.unshift(...cut);
 
-      coupDeck = coupDeck.splice(_.random(-offset, offset));
-      cards.push(...coupDeck);
-    } while (--options.nested <= 0);
+      return result;
+    };
 
-    if (!options.topDown) {
-      cards.reverse();
-    }
-  }),
+    return overhand(cards);
+  },
 
-  riffleShuffle: repeatable(function (cards, options = {}) {
-    options = _.extend({
-      sticky: 5
-    }, options);
+  riffleShuffle: function (cards, options = {}) {
+    _.defaults(options, { sticky: 3 });
 
     let insertIndex = 0;
-    let secondHalf = cards.splice(Math.round(cards.length / 2));
+    let secondHalf = cards.splice(round(cards.length / 2));
 
-    let rnd = _.partial(_.random, options.sticky);
+    let rnd = _.partial(_.random, 1, options.sticky);
 
     do {
+      let dropRnd = rnd();
+
       insertIndex += rnd();
-      cards.splice(insertIndex, 0, ...secondHalf.splice(0, rnd()));
+      cards.splice(insertIndex, 0, ...secondHalf.splice(0, dropRnd));
+
+      insertIndex += dropRnd;
     } while (secondHalf.length > 0);
-  }),
-
-  simplePokeShuffle: function (cards) {
-    // TODO write mutable method
-    return _.shuffle(cards);
   },
 
-  pokeShuffle: function (cards) {
-    let deckSize, bottomCard, currentCard;
-
-    deckSize = cards.length;
-    bottomCard = cards[deckSize - 1];
-
-    do {
-      currentCard = cards.splice(0);
-      cards.splice(_.random(deckSize - 1), 0, currentCard);
-    } while (currentCard !== bottomCard);
-  },
+  // simplePokeShuffle: function (cards) {
+  //   // TODO write mutable method
+  //   cards= _.shuffle(cards);
+  // },
+  //
+  // pokeShuffle: function (cards) {
+  //   let deckSize, bottomCard, currentCard;
+  //
+  //   deckSize = cards.length;
+  //   bottomCard = cards[deckSize - 1];
+  //
+  //   do {
+  //     currentCard = cards.splice(0);
+  //     cards.splice(_.random(deckSize - 1), 0, currentCard);
+  //   } while (currentCard !== bottomCard);
+  //
+  //   return cards;
+  // },
 
 };

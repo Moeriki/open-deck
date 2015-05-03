@@ -1,19 +1,39 @@
-Template.gamePage.events({
-
-  'click .js-deck-shuffle': function (e) {
+function stackOperation(which, fn) {
+  return function (e) {
     e.preventDefault();
 
     if (this.deck.length === 0) {
       return;
     }
 
-    Games.update(this._id, {
-      $set: { deck: CardsService.simplePokeShuffle(this.deck) }
-    });
-  },
+    let $setter = {};
+    let data = fn(this[which]);
+    log.info('deck operation result: ', data);
+
+    $setter[which] = this[which];
+
+    Games.update(this._id, { $set: $setter });
+  };
+}
+
+Template.gamePage.events({
+
+  'click .js-deck-cut': stackOperation('deck', (cards) => CardsService.cut(cards)),
+
+  'click .js-deck-overhand-shuffle': stackOperation('deck', (cards) => CardsService.overhandShuffle(cards)),
+
+  'click .js-deck-riffle-shuffle': stackOperation('deck', (cards) => CardsService.riffleShuffle(cards)),
+
+  // 'click .js-deck-simple-poke-shuffle': stackOperation('deck', (cards) => CardsService.simplePokeShuffle(cards)),
+
+  // 'click .js-deck-poke-shuffle': stackOperation('deck', (cards) => CardsService.pokeShuffle(cards)),
 
   'click .js-deck-open-card': function (e) {
     e.preventDefault();
+
+    if (this.deck.length === 0) {
+      return;
+    }
 
     let card = this.deck[this.deck.length - 1];
 
