@@ -7,18 +7,19 @@
   {{else}}
     <ul>
       {{#each players}}
-        <li>{{user.username}} [<a href="#" class="js-deal-card">deal</a>]</li>
+        <li>{{user.username}} [<a href="#" class="js-player-deal-card">deal</a>]</li>
       {{/each}}
     </ul>
   {{/isEmpty}}
   <h3>Deck <small>({{size deck}})</small></h3>
   <ul>
-    <li><a href="#" class="js-shuffle-deck">Shuffle deck</a></li>
+    <li><a href="#" class="js-deck-shuffle">shuffle</a></li>
+    <li><a href="#" class="js-deck-open-card">open</a></li>
   </ul>
   {{> cardList deck}}
   <h3>Open <small>({{size open}})</small></h3>
   <ul>
-    <li><a href="#" class="js-fold-cards">Fold</a></li>
+    <li><a href="#" class="js-open-fold-cards">Fold</a></li>
   </ul>
   {{> cardList open}}
   <h3>Fold <small>({{size fold}})</small></h3>

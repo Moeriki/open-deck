@@ -1,6 +1,6 @@
 Template.gamePage.events({
 
-  'click .js-shuffle-deck': function (e) {
+  'click .js-deck-shuffle': function (e) {
     e.preventDefault();
 
     if (this.deck.length === 0) {
@@ -12,7 +12,16 @@ Template.gamePage.events({
     });
   },
 
-  'click .js-deal-card': function (e) {
+  'click .js-deck-open-card': function (e) {
+    e.preventDefault();
+
+    let card = this.deck[this.deck.length - 1];
+
+    Games.update(this._id, { $pull: { deck: card } });
+    Games.update(this._id, { $push: { open: card } });
+  },
+
+  'click .js-player-deal-card': function (e) {
     e.preventDefault();
 
     let game = this.game();
@@ -22,12 +31,12 @@ Template.gamePage.events({
 
     let card = game.deck[game.deck.length - 1];
 
-    Games.update(game._id, { $pop: { deck: 1 } });
+    Games.update(game._id, { $pull: { deck: card } });
 
     Players.update(this._id, { $push: { cards: card } });
   },
 
-  'click .js-fold-cards': function (e) {
+  'click .js-open-fold-cards': function (e) {
     e.preventDefault();
 
     if (this.open.length === 0) {
