@@ -1,4 +1,8 @@
 function getSize(obj) {
+  if (obj == null) {
+    return NaN;
+  }
+
   if (typeof obj.count === 'function') {
     // Assume Meteor Cursor
     return obj.count();
