@@ -1,3 +1,5 @@
+window._ = window.lodash;
+
 window.logout = function () {
   Meteor.logout(function onLogout(err) {
     if (err) {
