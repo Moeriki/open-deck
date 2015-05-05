@@ -17,6 +17,14 @@ function stackOperation(which, fn) {
   };
 }
 
+Template.gamePage.helpers({
+
+  userStatusColor: function (user) {
+    return user.status.online ? 'green' : 'red';
+  },
+
+});
+
 Template.gamePage.events({
 
   'click .js-deck-cut': stackOperation('deck', (cards) => CardsService.cut(cards)),

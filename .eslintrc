@@ -19,6 +19,7 @@
     // Vendor libraries
     "_": true,
     "loglevel": true,
+    "RouteController": true,
     // Libraries
     "log": true,
     // Models

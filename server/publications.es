@@ -24,18 +24,14 @@ Meteor.publish('singlePlayer', function (playerId) {
 
 // composites
 
-Meteor.publish('userPlayers', function (userId) {
-  return Players.find({ userId }, { gameId: 1 });
-});
-
 Meteor.publishComposite('gamePlayers', function (gameId) {
   return {
     find: function () {
-      return Players.find({ gameId });
+      return Players.find({ gameId }, { fields: { cards: 0 } });
     },
     children: [{
       find: function (player) {
-        return Meteor.users.find(player.userId);
+        return Meteor.users.find(player.userId, { fields: { username: 1, status: 1 } });
       }
     }]
   };

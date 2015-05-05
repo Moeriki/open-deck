@@ -10,7 +10,6 @@ Router.route('/', {
     return [
       Meteor.subscribe('tableList'),
       Meteor.subscribe('gameList'),
-      Meteor.subscribe('userPlayers', Meteor.userId()),
     ];
   },
   data: function () {
@@ -18,8 +17,7 @@ Router.route('/', {
   }
 });
 
-Router.route('/tables/:_tableId/games/:_gameId', {
-  name: 'gamePage',
+let GameController = RouteController.extend({
   waitOn: function () {
     return [
       Meteor.subscribe('singleTable', this.params._tableId),
@@ -29,7 +27,17 @@ Router.route('/tables/:_tableId/games/:_gameId', {
   },
   data: function () {
     return Games.findOne(this.params._gameId);
-  }
+  },
+});
+
+Router.route('/tables/:_tableId/games/:_gameId', {
+  controller: GameController,
+  name: 'gamePage',
+});
+
+Router.route('/tables/:_tableId/games/:_gameId/players/join', {
+  controller: GameController,
+  name: 'playerJoin',
 });
 
 Router.route('/tables/:_tableId/games/:_gameId/players/:_playerId', {
@@ -52,7 +60,7 @@ Router.onBeforeAction(function () {
   let userId = Meteor.userId();
   let player = Players.findOne(this.params._playerId);
 
-  if (player.userId && !userId || player.userId !== userId) {
+  if (!userId || player.userId !== userId) {
     return this.render('accessDenied');
   }
 

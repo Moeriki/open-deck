@@ -1,21 +1,19 @@
 <template name="tableList">
-  {{#if hasTables}}
-    <ul class="table-list">
-      {{#each this}}
-        <li>
-          {{name}} ({{size games}} game)
-          <ul>
-            {{#each games}}
-              <li>
-                {{_id}}
-                [<a href="{{pathFor route='gamePage' data=gamePageData}}">watch</a>]
-                [<a href="#" class="js-join-game">{{joinOpenLabel}}</a>]
-              </li>
-            {{/each}}
-          </ul>
-        </li>
-      {{/each}}
-    </ul>
-  {{/if}}
-  <a href="#" class="js-create-new-table">Create table</a>
+  <ul>
+    {{#each this}}
+      <li>
+        {{name}} ({{size games}} game)
+        <ul>
+          {{#each games}}
+            <li>
+              {{_id}}
+              [<a href="{{pathFor route='gamePage' data=gamePageData}}">watch</a>]
+              [<a href="{{pathFor route='playerJoin' data=gamePageData}}">join</a>]
+            </li>
+          {{/each}}
+        </ul>
+      </li>
+    {{/each}}
+    <li><a href="#" class="js-create-new-table">Create table</a></li>
+  </ul>
 </template>

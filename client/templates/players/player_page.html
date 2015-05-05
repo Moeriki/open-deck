@@ -1,23 +1,15 @@
 <template name="playerPage">
-  {{#if userId}}
-    <h1>Table: {{table.name}}</h1>
-    <h2>Game: {{game._id}}</h2>
-    <h3>Player: {{user.username}}.</h3>
-    <h4>Hand</h4>
-    {{#isEmpty cards}}
-      <p>You have no cards.</p>
-    {{else}}
-      <ul>
-        {{#each cards}}
-          <li>{{> cardItem}} [<a href="#" class="js-play-card">play card</a>]</li>
-        {{/each}}
-      </ul>
-    {{/isEmpty}}
+  <h1>Table: {{table.name}}</h1>
+  <h2>Game: {{game._id}}</h2>
+  <h3>Player: {{user.username}}.</h3>
+  <h4>Hand</h4>
+  {{#isEmpty cards}}
+    <p>You have no cards.</p>
   {{else}}
-    <form class="js-player-join-game">
-      <div>Please choose a username.</div>
-      <input type="text" class="js-username" />
-      <input type="button" class="js-action" value="Go" />
-    </form>
-  {{/if}}
+    <ul>
+      {{#each cards}}
+        <li>{{> cardItem}} [<a href="#" class="js-play-card">play card</a>]</li>
+      {{/each}}
+    </ul>
+  {{/isEmpty}}
 </template>

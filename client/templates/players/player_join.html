@@ -1,0 +1,44 @@
+<template name="playerJoin">
+  <h1>Table: {{table.name}}</h1>
+  <h2>Game: {{_id}}</h2>
+  <h3>
+    User:
+    {{#if currentUser}}
+      {{currentUser._id}}
+    {{else}}
+      <em>none</em>
+    {{/if}}
+  </h3>
+  <p>
+    {{#if currentUser}}
+      You are {{currentUser.username}}.
+    {{else}}
+      <form class="js-user-create">
+        <div>Please choose a username.</div>
+        <input type="text" class="js-username" />
+        <input type="button" class="js-action" value="Go" />
+      </form>
+    {{/if}}
+  </p>
+  <h3>Players <small>({{size players}})</small></h3>
+  <ul>
+    {{#each players}}
+      <li>
+        {{#if user}}
+          {{user.username}}
+          {{#if isCurrentUser user}}
+            [<a href="{{pathFor route='playerPage' data=playerPageData }}">open</a>]
+          {{/if}}
+        {{else}}
+          <em>empty seat</em>
+          {{#if currentUserCanJoinGame game._id}}
+            [<a href="#" class="js-player-take-seat">take</a>]
+          {{/if}}
+        {{/if}}
+      </li>
+    {{/each}}
+    {{#if currentUserCanJoinGame _id}}
+      <li>[<a href="#" class="js-player-join-game">join</a>]</li>
+    {{/if}}
+  </ul>
+</template>
