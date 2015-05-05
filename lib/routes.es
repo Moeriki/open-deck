@@ -7,7 +7,11 @@ Router.configure({
 Router.route('/', {
   name: 'tableList',
   waitOn: function () {
-    return [Meteor.subscribe('tableList'), Meteor.subscribe('gameList')];
+    return [
+      Meteor.subscribe('tableList'),
+      Meteor.subscribe('gameList'),
+      Meteor.subscribe('userPlayers', Meteor.userId()),
+    ];
   },
   data: function () {
     return Tables.find();

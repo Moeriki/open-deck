@@ -1,5 +1,14 @@
 let log = loglevel.createPackageLogger('tableList');
 
+// private functions
+
+function isUserInGame(gameId) {
+  let userId = Meteor.userId();
+  return !!userId && !!Players.findOne({ userId, gameId });
+}
+
+// template helpers
+
 Template.tableList.helpers({
 
   gamePageData: function () {
@@ -10,7 +19,13 @@ Template.tableList.helpers({
     return this.count() > 0;
   },
 
+  joinOpenLabel: function () {
+    return isUserInGame(this._id) ? 'open' : 'join';
+  }
+
 });
+
+// template events
 
 Template.tableList.events({
 
@@ -28,6 +43,19 @@ Template.tableList.events({
 
     let gameId = this._id;
     let tableId = this.tableId;
+
+    if (isUserInGame(gameId)) {
+      let userId = Meteor.userId();
+      let playerId = Players.findOne({ userId, gameId })._id;
+
+      Router.go('playerPage', {
+        _tableId: tableId,
+        _gameId: gameId,
+        _playerId: playerId,
+      });
+
+      return;
+    }
 
     Meteor.call('createPlayer', gameId, function (err, playerId) {
       if (err) {

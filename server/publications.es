@@ -24,6 +24,10 @@ Meteor.publish('singlePlayer', function (playerId) {
 
 // composites
 
+Meteor.publish('userPlayers', function (userId) {
+  return Players.find({ userId }, { gameId: 1 });
+});
+
 Meteor.publishComposite('gamePlayers', function (gameId) {
   return {
     find: function () {
