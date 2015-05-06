@@ -1,5 +1,3 @@
-// Meteor.users
-
 Meteor.users.helpers({
 
   player: function () {

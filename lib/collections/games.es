@@ -1,6 +1,5 @@
 /**
  * A game is one card game in progress or finished on a table.
- * @type {Mongo.Collection}
  * @param {string} tableId
  */
 

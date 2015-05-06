@@ -3,7 +3,9 @@ var SYMBOL_MAP = {
 };
 
 Template.cardItem.helpers({
+
   symbol: function () {
     return SYMBOL_MAP[this.number] || this.number;
-  }
+  },
+
 });
