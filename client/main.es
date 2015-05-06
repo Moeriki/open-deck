@@ -8,4 +8,8 @@ window.logout = function () {
       log.info('logout succesful');
     }
   });
+errorHandler = function (err) {
+  if (err) {
+    return log.error(err);
+  }
 };

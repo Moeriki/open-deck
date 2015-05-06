@@ -6,7 +6,62 @@ Meteor.methods({
     // 'click .js-deck-overhand-shuffle': stackOperation((cards) => CardsService.overhandShuffle(cards)),
     //
     // 'click .js-deck-riffle-shuffle': stackOperation((cards) => CardsService.riffleShuffle(cards)),
+  // user
 
+  createTable: function () {
+    // TODO only allow users to create tables
+    // check(this.userId, String);
+    let tableId = Tables.insert({ name: 'My Table' });
+    let gameId = Games.insert({ tableId });
+
+    return { tableId, gameId };
+  },
+
+  joinGame: function (gameId) {
+    check(this.userId, String);
+    check(gameId, String);
+
+    let game = Games.findOne(gameId);
+    if (!game) {
+      throw new Meteor.Error('game-not-found');
+    }
+
+    let playerId = Players.insert({ userId: this.userId, gameId });
+
+    Stacks.insert({
+      gameId,
+      title: Meteor.user().username,
+      playerId,
+      size: 0,
+      table: false,
+      open: true,
+      face: true,
+      arrangeable: true,
+      poppable: true,
+      pushable: true,
+      cards: [],
+    });
+  },
+
+  takeSeat: function (playerId) {
+    check(this.userId, String);
+    check(playerId, String);
+
+    let player = Players.findOne(playerId);
+    if (!player) {
+      throw new Meteor.Error('player-not-found');
+    }
+
+    let gameId = player.game()._id;
+
+    Players.update(playerId, { $set: { userId: this.userId } });
+
+    Stacks.update({ gameId, playerId }, { $set: { title: this.user.username() }});
+  },
+
+  // stack
+
+  arrangeStack: function (stackId, method = 'sort') {
     check(stackId, String);
     // check(method, ['sort', 'cut', 'overhand', 'riffle']);
 
