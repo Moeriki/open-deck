@@ -1,11 +1,5 @@
 Meteor.methods({
 
-  arrangeStack: function (stackId, method = 'sort') {
-    // 'click .js-deck-cut': stackOperation((cards) => CardsService.cut(cards)),
-    //
-    // 'click .js-deck-overhand-shuffle': stackOperation((cards) => CardsService.overhandShuffle(cards)),
-    //
-    // 'click .js-deck-riffle-shuffle': stackOperation((cards) => CardsService.riffleShuffle(cards)),
   // user
 
   createTable: function () {
@@ -63,11 +57,15 @@ Meteor.methods({
 
   arrangeStack: function (stackId, method = 'sort') {
     check(stackId, String);
-    // check(method, ['sort', 'cut', 'overhand', 'riffle']);
+    // TODO check(method, ['sort', 'cut', 'overhand', 'riffle']);
 
     let stack = Stacks.findOne(stackId);
     if (!stack) {
       throw Meteor.Error('stack not found');
+    }
+
+    if (!stack.arrangeable) {
+      return log.warn('stack is not allowed to be arranged');
     }
 
     let cards = stack.cards;
@@ -101,6 +99,8 @@ Meteor.methods({
     check(dstStackId, String);
     check(count, Number);
 
+    // TODO check if userId either hosts or participates in the game
+
     if (srcStackId === dstStackId) {
       return log.warn('source and destination stack is the same');
     }
@@ -109,15 +109,15 @@ Meteor.methods({
     dstStack = Stacks.findOne(dstStackId);
 
     if (!srcStack || !dstStack) {
-      return log.error('stack not found');
+      throw new Meteor.Error('data-not-found', 'either source or destination stack not found');
     }
 
     if (!srcStack.poppable || !dstStack.pushable) {
-      return log.error('r/w operation not allowed');
+      throw new Meteor.Error('permission-denied', 'stack r/w operation denied');
     }
 
     if (srcStack.gameId !== dstStack.gameId) {
-      return log.error('cant deal between games');
+      throw new Meteor.Error('data-mismatch', 'stacks are not in the same game');
     }
 
     if (srcStack.cards.length < count) {
