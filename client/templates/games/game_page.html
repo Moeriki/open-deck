@@ -1,6 +1,9 @@
 <template name="gamePage">
+
   <h1>Table: {{table.name}}</h1>
+
   <h2>Game: {{_id}}</h2>
+
   <h3>Players <small>({{size players}})</small></h3>
   {{#isEmpty players}}
     <p>There are no players yet.</p>
@@ -9,10 +12,9 @@
       {{#each players}}
         <li>
           {{#if user}}
-            <span style="color:{{userStatusColor user}}">
+            <span style="color:{{user.statusColor}}">
               {{user.username}}
             </span>
-            [<a href="#" class="js-player-deal-card">deal</a>]
           {{else}}
             <em>empty seat</em>
           {{/if}}
@@ -20,21 +22,10 @@
       {{/each}}
     </ul>
   {{/isEmpty}}
-  <h3>Deck <small>({{size deck}})</small></h3>
-  <ul>
-    <li><a href="#" class="js-deck-cut">cut</a></li>
-    <li><a href="#" class="js-deck-overhand-shuffle">overhand shuffle</a></li>
-    <li><a href="#" class="js-deck-riffle-shuffle">riffle shuffle</a></li>
-    <!-- <li><a href="#" class="js-deck-simple-poke-shuffle">simple poke shuffle</a></li>
-    <li><a href="#" class="js-deck-poke-shuffle">poke shuffle</a></li> -->
-    <li><a href="#" class="js-deck-open-card">open</a></li>
-  </ul>
-  {{> cardList deck}}
-  <h3>Open <small>({{size open}})</small></h3>
-  <ul>
-    <li><a href="#" class="js-open-fold-cards">Fold</a></li>
-  </ul>
-  {{> cardList open}}
-  <h3>Fold <small>({{size fold}})</small></h3>
-  {{> cardList fold}}
+
+  <h3>Stacks</h3>
+  {{#each tableStacks}}
+    {{> stackList this}}
+  {{/each}}
+
 </template>

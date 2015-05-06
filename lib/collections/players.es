@@ -10,16 +10,23 @@ Players = new Mongo.Collection('players');
 
 Players.helpers({
 
-  game: function () {
-    return Games.findOne(this.gameId);
+  user: function () {
+    return Meteor.users.findOne(this.userId);
   },
 
   table: function () {
     return this.game().table();
   },
 
-  user: function () {
-    return Meteor.users.findOne(this.userId);
-  }
+  game: function () {
+    return Games.findOne(this.gameId);
+  },
+
+  hand: function () {
+    return Stacks.findOne({
+      playerId: this._id,
+      table: false,
+    });
+  },
 
 });

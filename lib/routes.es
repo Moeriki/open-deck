@@ -21,8 +21,7 @@ let GameController = RouteController.extend({
   waitOn: function () {
     return [
       Meteor.subscribe('singleTable', this.params._tableId),
-      Meteor.subscribe('singleGame', this.params._gameId),
-      Meteor.subscribe('gamePlayers', this.params._gameId)
+      Meteor.subscribe('publicGame', this.params._gameId),
     ];
   },
   data: function () {
@@ -45,8 +44,8 @@ Router.route('/tables/:_tableId/games/:_gameId/players/:_playerId', {
   waitOn: function () {
     return [
       Meteor.subscribe('singleTable', this.params._tableId),
-      Meteor.subscribe('singleGame', this.params._gameId),
-      Meteor.subscribe('singlePlayer', this.params._playerId)
+      Meteor.subscribe('publicGame', this.params._gameId),
+      Meteor.subscribe('privatePlayer', this.params._playerId),
     ];
   },
   data: function () {

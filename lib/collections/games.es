@@ -16,11 +16,8 @@ Games.helpers({
     return Players.find({ gameId: this._id });
   },
 
-});
+  stacks: function () {
+    return Stacks.find({ gameId: this._id });
+  },
 
-// TODO try to move collection hook to server
-Games.before.insert(function (id, game) {
-  game.deck = CardsService.createDeck();
-  game.open = [];
-  game.fold = [];
 });

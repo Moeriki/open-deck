@@ -39,6 +39,12 @@ CardsService = {
     return cards;
   },
 
+  sort: function (cards) {
+    cards.sort(function (c1, c2) {
+      return COLORS.indexOf(c1.color) - COLORS.indexOf(c2.color) || c1.number - c2.number;
+    });
+  },
+
   cut: function (cards, options = {}) {
     _.defaults(options, {
       at: 'random',// any non number = 'random'

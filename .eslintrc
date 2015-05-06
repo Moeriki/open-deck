@@ -25,6 +25,7 @@
     // Models
     "Tables": true,
     "Games": true,
+    "Stacks": true,
     "Players": true,
     // Services
     "CardsService": true,

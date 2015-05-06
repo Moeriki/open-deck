@@ -1,0 +1,42 @@
+<template name="stackList">
+
+  <hr />
+
+  <h4>Stack: {{title}}</h4>
+
+  <h5>Menu</h5>
+
+  <ul>
+    {{#if arrangeable}}
+      <li><a href="#" class="js-stack-sort">sort</a></li>
+      <li><a href="#" class="js-stack-cut">cut</a></li>
+      <li><a href="#" class="js-stack-overhand-shuffle">overhand shuffle</a></li>
+      <li><a href="#" class="js-stack-riffle-shuffle">riffle shuffle</a></li>
+      <!--
+      <li><a href="#" class="js-stack-simple-poke-shuffle">simple poke shuffle</a></li>
+      <li><a href="#" class="js-stack-poke-shuffle">poke shuffle</a></li>
+      -->
+    {{/if}}
+    {{#if poppable}}
+      {{#each targetStacks}}
+        <li><a href="#" class="js-move-to-stack">{{title}}</a></li>
+      {{/each}}
+      {{#each targetPlayers}}
+        <li>
+          <span style="color:{{user.statusColor}}">
+            {{user.username}}
+          </span>
+          [<a href="#" class="js-player-deal-card">deal</a>]
+        </li>
+      {{/each}}
+    {{/if}}
+  </ul>
+
+  <h5>Cards ({{this.size}})</h5>
+  {{#if listCards}}
+    {{> cardList cards}}
+  {{else}}
+    <p>This is a closed deck.</p>
+  {{/if}}
+
+</template>

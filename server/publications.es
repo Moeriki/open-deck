@@ -14,24 +14,49 @@ Meteor.publish('singleTable', function (tableId) {
   return Tables.find(tableId);
 });
 
-Meteor.publish('singleGame', function (gameId) {
-  return Games.find(gameId);
-});
-
-Meteor.publish('singlePlayer', function (playerId) {
-  return Players.find(playerId);
-});
-
 // composites
 
-Meteor.publishComposite('gamePlayers', function (gameId) {
+Meteor.publishComposite('publicGame', function (gameId) {
   return {
     find: function () {
-      return Players.find({ gameId }, { fields: { cards: 0 } });
+      return Games.find(gameId);
+    },
+    children: [{
+      find: function (game) {
+        return Players.find({ gameId: game._id });
+      },
+      children: [{
+        find: function (player) {
+          return Meteor.users.find(player.userId, { fields: { username: 1, status: 1 } });
+        }
+      }]
+    }, {
+      find: function (game) {
+        return Stacks.find({ gameId: game._id, table: true, open: true });
+      },
+    }, {
+      find: function (game) {
+        return Stacks.find({ gameId: game._id, table: true, open: false }, { fields: { cards: 0 } });
+      }
+    }, {
+      find: function (game) {
+        return Stacks.find({ gameId: game._id, table: false }, { fields: { cards: 0 } });
+      }
+    }]
+  };
+});
+
+Meteor.publishComposite('privatePlayer', function (playerId) {
+  return {
+    find: function () {
+      return Players.find(playerId);
     },
     children: [{
       find: function (player) {
-        return Meteor.users.find(player.userId, { fields: { username: 1, status: 1 } });
+        return Stacks.find({
+          playerId: player._id,
+          table: false,
+        });
       }
     }]
   };

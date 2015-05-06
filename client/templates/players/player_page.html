@@ -3,13 +3,5 @@
   <h2>Game: {{game._id}}</h2>
   <h3>Player: {{user.username}}.</h3>
   <h4>Hand</h4>
-  {{#isEmpty cards}}
-    <p>You have no cards.</p>
-  {{else}}
-    <ul>
-      {{#each cards}}
-        <li>{{> cardItem}} [<a href="#" class="js-play-card">play card</a>]</li>
-      {{/each}}
-    </ul>
-  {{/isEmpty}}
+  {{> stackList hand}}
 </template>

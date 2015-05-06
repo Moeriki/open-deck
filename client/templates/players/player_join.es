@@ -58,7 +58,21 @@ Template.playerJoin.events({
     let userId = Meteor.userId();
     let gameId = this._id;
 
-    Players.insert({ userId, gameId, cards: [] });
+    let playerId = Players.insert({ userId, gameId, });
+
+    Stacks.insert({
+      gameId,
+      title: Meteor.user().username,
+      playerId,
+      size: 0,
+      table: false,
+      open: true,
+      face: true,
+      arrangeable: true,
+      poppable: true,
+      pushable: true,
+      cards: [],
+    });
   },
 
   'click .js-player-take-seat': function (e) {
@@ -66,8 +80,10 @@ Template.playerJoin.events({
 
     let userId = Meteor.userId();
     let playerId = this._id;
+    let gameId = this.game()._id;
 
-    Players.update(playerId, { $set: { userId }});
+    Players.update(playerId, { $set: { userId } });
+    Stacks.update({ gameId, playerId }, { $set: { title: this.user.username() }});
   },
 
 });
