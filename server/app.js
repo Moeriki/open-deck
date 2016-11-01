@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import compress from 'koa-compress';
 import convert from 'koa-convert';
+import helmet from 'koa-helmet';
 import logger from 'koa-logger';
 import ratelimit from 'koa-ratelimit';
 import responseTime from 'koa-response-time';
@@ -15,6 +16,8 @@ export default function () {
   if (config.env !== 'test') {
     app.use(logger());
   }
+
+  app.use(helmet());
 
   app.use(responseTime());
 
