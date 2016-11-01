@@ -1,0 +1,47 @@
+{
+  "name": "open-deck-server",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Dieter Luypaert <dieterluypaert@gmail.com>",
+  "private": true,
+  "engines": {
+    "node": ">=6"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint **/*.js",
+    "pretest": "npm run lint",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "node": "babel-node",
+    "start:dev": "nodemon --exec npm run node -- index.js"
+  },
+  "dependencies": {
+    "koa": "^2.0.0-alpha.7",
+    "koa-compress": "^2.0.0",
+    "koa-convert": "^1.2.0",
+    "koa-logger": "^2.0.0",
+    "koa-ratelimit": "^2.4.0",
+    "koa-response-time": "^2.0.0",
+    "koa-router": "^7.0.1",
+    "redis": "^2.6.3",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.18.0",
+    "babel-plugin-transform-es2015-parameters": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-eslatest-node6": "^1.0.1",
+    "eslint": "^3.9.1",
+    "eslint-config-muriki": "^6.2.1",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-jasmine": "^1.8.1",
+    "eslint-plugin-node": "^3.0.3",
+    "jest": "^16.0.2",
+    "nodemon": "^1.11.0"
+  }
+}
