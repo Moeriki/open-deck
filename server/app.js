@@ -7,8 +7,8 @@ import ratelimit from 'koa-ratelimit';
 import responseTime from 'koa-response-time';
 import redis from 'redis';
 
+import api from './api/index';
 import config from './config';
-import api from './router';
 
 export default function () {
   const app = new Koa();
