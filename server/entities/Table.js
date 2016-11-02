@@ -1,3 +1,30 @@
-/**
- * A table is placed in a room. And can have no, or one game in progress. When no game is in progress the table can be used to free-play.
- */
+
+import createModel, { ObjectId } from './__mongoose';
+
+export default createModel('Table', {
+
+  game: {
+    $type: ObjectId,
+    ref: 'Game',
+    required: false,
+  },
+
+  name: {
+    $type: String,
+    required: true,
+  },
+
+  players: {
+    $type: [ObjectId],
+    default: [],
+    ref: 'Player',
+    required: true,
+  },
+
+  room: {
+    $type: ObjectId,
+    ref: 'Room',
+    required: true,
+  },
+
+});
